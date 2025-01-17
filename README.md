@@ -1,4 +1,4 @@
-### Maximum sum circular subarray
+# Maximum sum circular subarray
    Đây là chương trình C thực hiện việc tìm mảng con (subarray) có tổng lớn nhất trong một mảng tròn (circular integer array). Một mảng tròn là mảng mà phần tử cuối được nối với phần tử đầu, tạo thành một vòng tròn.
 ## 1. Xác định bài toán:   
 - Đầu vào: Một mảng số nguyên `arr` có kích thước n, là một mảng tròn (circular array), trong đó phần tử cuối nối liền với phần tử đầu.

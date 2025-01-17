@@ -1,3 +1,8 @@
+# Đây là phần mô tả giải thuật và viết mã giả.
+Bài tập lớn môn Cấu trúc dữ liệu và giải thuật   
+Họ và tên sinh viên: Kiều Tuấn Định  
+MSSV: 20224420
+
 # Maximum sum circular subarray
    Đây là giải thuật thực hiện việc tìm mảng con (subarray) có tổng lớn nhất trong một mảng tròn (circular integer array). Một mảng tròn là mảng mà phần tử cuối được nối với phần tử đầu, tạo thành một vòng tròn.
 ## 1. Xác định bài toán:   

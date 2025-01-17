@@ -88,7 +88,7 @@ void printSubarray(int arr[], int n, int start, int end) {
 }
 
 int main() {
-    int arr[] = {8, -4, 3, -5, 4}; // Mảng đầu vào
+    int arr[] = {12,23,421,-23,-24,3,-3,-34,23,11,23,42,4}; // Mảng đầu vào
     int n = sizeof(arr) / sizeof(arr[0]); // Kích thước của mảng
     int start, end; // Các biến lưu chỉ số bắt đầu và kết thúc của mảng con lớn nhất
 
@@ -96,6 +96,5 @@ int main() {
     printf("Tong so lon nhat cua mang con: %d\n", result); // In tổng lớn nhất
     printf("Mang con lon nhat la: ");
     printSubarray(arr, n, start, end); // In mảng con lớn nhất
-
     return 0;
 }

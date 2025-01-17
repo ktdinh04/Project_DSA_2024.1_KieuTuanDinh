@@ -1,5 +1,5 @@
 # Maximum sum circular subarray
-   Đây là chương trình C thực hiện việc tìm mảng con (subarray) có tổng lớn nhất trong một mảng tròn (circular integer array). Một mảng tròn là mảng mà phần tử cuối được nối với phần tử đầu, tạo thành một vòng tròn.
+   Đây là giải thuật thực hiện việc tìm mảng con (subarray) có tổng lớn nhất trong một mảng tròn (circular integer array). Một mảng tròn là mảng mà phần tử cuối được nối với phần tử đầu, tạo thành một vòng tròn.
 ## 1. Xác định bài toán:   
 - Đầu vào: Một mảng số nguyên `arr` có kích thước n, là một mảng tròn (circular array), trong đó phần tử cuối nối liền với phần tử đầu.
 - Đầu ra: Tổng lớn nhất của một mảng con liên tục (subarray) và các chỉ số bắt đầu, kết thúc của mảng con đó.
@@ -111,3 +111,113 @@ Hàm Kadane: Tìm tổng lớn nhất của mảng con
 ## 6.Code 
  - [Maximum_sum_circular_subarray](https://github.com/ktdinh04/Project_DSA_2024.1_KieuTuanDinh/blob/main/Maximum_sum_circular_subarray.c)
  
+
+# Distance node tree
+    Đây là giải thuật tính khoảng cách giữa các Node trong một cây
+
+## 1. Xác định bài toán
+- Đầu vào:
+    - Một cây nhị phân.
+    - Hai nút bất kỳ n1 và n2 trong cây.
+- Đầu ra:
+    - Khoảng cách giữa hai nút n1 và n2, định nghĩa là số cạnh ngắn nhất nối giữa chúng.
+    - Nếu một hoặc cả hai nút không tồn tại, trả về giá trị báo lỗi (-1).
+
+## 2. Phân tích bài toán
+- Sử dụng tính chất của Tổ tiên Chung Thấp nhất (LCA - Lowest Common Ancestor):
+    - LCA là nút tổ tiên chung gần nhất của hai nút.
+    - Khoảng cách giữa hai nút n1 và n2 là tổng của:
+        - Khoảng cách từ LCA đến n1.
+        - Khoảng cách từ LCA đến n2.  
+- Chia bài toán thành các bước:
+    1. Tìm LCA của n1 và n2.
+    2. Tính khoảng cách từ LCA đến từng nút.
+    3. Tổng hợp khoảng cách từ bước 2 để có kết quả.
+
+## 3. Xây dựng giải thuật  
+### Bước 1: Tìm LCA của hai nút  
+- Duyệt cây theo thứ tự hậu tố (Post - Order).
+- Với mỗi nút:
+    1. Nếu nút hiện tại bằng `n1` hoặc `n2`, trả về nút hiện tại (LCA có thể là nút này).
+    2. Đệ quy kiểm tra cây con trái và cây con phải:
+        - Nếu cả hai cây con đều trả về kết quả không NULL, nút hiện tại là LCA.
+    3. Nếu chỉ một cây con trả về kết quả không NULL, LCA nằm ở cây con đó.
+### Bước 2: Tính khoảng cách từ LCA đến từng nút  
+- Duyệt cây từ LCA theo thứ tự tiền tự (Pre-order Traversal).
+- Nếu tìm thấy nút cần tìm (`n1` hoặc `n2`), trả về khoảng cách.  
+- Nếu không, đệ quy tìm trong cây con trái và cây con phải.  
+- Nếu cả hai cây con đều không chứa nút, trả về -1.  
+
+### Bước 3: Tính tổng khoảng cách
+- Ta tính được khoảng cách từ LCA đến `n1` và `n2` là `d1` và `d2`.
+- Tổng khoảng cách sẽ là `d1 + d2`.
+
+## 4. Độ phức tạp
+### Độ phức tạp thời gian  
+- Tìm LCA: `O(n)` (vì phải duyệt tất cả các nút trong cây một lần).  
+- Tìm khoảng cách từ LCA đến từng nút: `O(h)` với `h` là chiều cao của cây.
+- Tổng cộng: `O(n)` vì `h < n`  
+### Độ phức tạp không gian
+- Chiếm O(h) không gian trên ngăn xếp đệ quy, với h là chiều cao của cây.
+
+## 5. Mã giả
+Hàm tìm khoảng cách từ gốc đến một nút: 
+
+    FUNCTION findDistanceFromRoot(root, key, distance):
+    // Nếu gốc là NULL, trả về -1 (nút không tồn tại)
+    IF root == NULL:
+        RETURN -1
+
+    // Nếu tìm thấy nút, trả về khoảng cách hiện tại
+    IF root.data == key:
+        RETURN distance
+
+    // Đệ quy tìm trong cây con trái
+    leftDistance = findDistanceFromRoot(root.left, key, distance + 1)
+    IF leftDistance != -1:
+        RETURN leftDistance
+
+    // Nếu không tìm thấy ở cây trái, tìm trong cây phải
+    RETURN findDistanceFromRoot(root.right, key, distance + 1)
+
+Hàm tìm LCA (Tổ tiên chung thấp nhất):
+
+    FUNCTION findLCA(root, n1, n2):
+    // Nếu gốc là NULL, trả về NULL
+    IF root == NULL:
+        RETURN NULL
+
+    // Nếu gốc là một trong hai nút, trả về gốc
+    IF root.data == n1 OR root.data == n2:
+        RETURN root
+
+    // Đệ quy tìm LCA trong cây con trái và cây con phải
+    leftLCA = findLCA(root.left, n1, n2)
+    rightLCA = findLCA(root.right, n1, n2)
+
+    // Nếu tìm thấy cả hai bên, gốc là LCA
+    IF leftLCA != NULL AND rightLCA != NULL:
+        RETURN root
+
+    // Nếu chỉ một bên có kết quả, trả về bên đó
+    RETURN leftLCA != NULL ? leftLCA : rightLCA
+
+Hàm tổng quát: 
+
+    FUNCTION findDistance(root, n1, n2):
+    // Bước 1: Tìm Tổ tiên Chung Thấp nhất (LCA) của n1 và n2
+    lca = findLCA(root, n1, n2)
+    
+    // Nếu không tìm thấy LCA, một hoặc cả hai nút không tồn tại
+    IF lca == NULL:
+        RETURN -1
+
+    // Bước 2: Tính khoảng cách từ LCA đến n1 và n2
+    d1 = findDistanceFromRoot(lca, n1, 0)
+    d2 = findDistanceFromRoot(lca, n2, 0)
+
+    // Bước 3: Tổng hợp khoảng cách
+    RETURN d1 + d2
+
+## 6. Code
+- [Distance_Node_Tree.c](https://github.com/ktdinh04/Project_DSA_2024.1_KieuTuanDinh/blob/main/Distance_Node_Tree.c)
